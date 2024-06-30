@@ -1,0 +1,14 @@
+{
+    "idf.flashType": "UART",
+    "idf.port": "/dev/ttyUSB0",
+    "idf.adapterTargetName": "esp32", // Update this to the correct port for your device
+    "idf.openOcdConfigs": [
+        "board/esp32-wrover-kit-3.3v.cfg"
+    ], 
+    "C_Cpp.default.configurationProvider": "espressif.idf",
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "files.associations": {
+        "esp_chip_info.h": "c",
+        "task.h": "c"
+    }
+}
