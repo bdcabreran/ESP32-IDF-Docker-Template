@@ -49,7 +49,9 @@ RUN : \
 # Use IDF_INSTALL_TARGETS to install tools only for selected chip targets (CSV)
 
 ARG IDF_CLONE_URL=https://github.com/espressif/esp-idf.git
-ARG IDF_CLONE_BRANCH_OR_TAG=master
+
+# Change this to the desired branch or tag e.g "release/v4.4" -> IDF_CLONE_BRANCH_OR_TAG=release/v4.1
+ARG IDF_CLONE_BRANCH_OR_TAG=master 
 ARG IDF_CHECKOUT_REF=
 ARG IDF_CLONE_SHALLOW=
 ARG IDF_CLONE_SHALLOW_DEPTH=1

@@ -1,53 +1,95 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-P4 | ESP32-S2 | ESP32-S3 | Linux |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | -------- | -------- | -------- | ----- |
+# README.md for ESP32-IDF-Docker-Template
 
-# Hello World Example
+## Overview
 
-Starts a FreeRTOS task to print "Hello World".
+This project provides a ready-to-use development environment for the ESP32 using the Espressif IoT Development Framework (ESP-IDF), fully containerized within Docker. The setup is designed to work out-of-the-box with Visual Studio Code, leveraging the Docker Container extension for an integrated development experience. This simplifies the process of setting up and maintaining the development environment, as it abstracts the complexity of configuring and installing the necessary tools directly on your local machine.
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+## Prerequisites
 
-## How to use example
+- Docker installed on your machine.
+- Visual Studio Code installed.
+- Visual Studio Code Extensions:
+  - Remote - Containers extension (`ms-vscode-remote.remote-containers`).
 
-Follow detailed instructions provided specifically for this example.
+## Getting Started
 
-Select the instructions depending on Espressif chip installed on your development board:
+1. **Clone the Repository**
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+   ```bash
+   git clone https://yourrepository/ESP32-IDF-Docker-Template.git
+   cd ESP32-IDF-Docker-Template
+   ```
 
+2. **Open with Visual Studio Code**
 
-## Example folder contents
+   Open Visual Studio Code and navigate to `File > Open Folder...`, select the `ESP32-IDF-Docker-Template` directory.
 
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
+3. **Reopen in Container**
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both).
+   Using the Remote - Containers extension in VSCode, reopen the project inside the Docker container by clicking on the green bottom-left corner button and selecting `Reopen in Container`. This will build the Docker container based on the provided `Dockerfile` and set up everything needed for the development.
 
-Below is short explanation of remaining files in the project folder.
+4. **Start Developing**
 
-```
-├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
-│   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
-```
+   Once the container is built and the environment is active, you can start modifying the source files under the `main` directory or create new components as needed.
 
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
+## Project Structure
+
+- `/.devcontainer`: Contains the `devcontainer.json`, `Dockerfile`, and entry script which configure the development environment.
+- `/docs`: Documentation resources like images.
+- `/main`: Source directory for your ESP32 application.
+- `CMakeLists.txt`: Project-wide CMake configuration file.
+- `README.md`: This README file.
+
+## Docker Configuration
+
+The provided Docker configuration sets up the ESP-IDF development environment with all necessary tools. If you need to work with a different version of ESP-IDF or customize the setup:
+
+- **Changing ESP-IDF Version**:
+  - Modify the `Dockerfile` to clone a different branch or tag from the ESP-IDF repository. Adjust the `IDF_CLONE_BRANCH_OR_TAG` argument accordingly.
+  
+    ```Dockerfile
+    ARG IDF_CLONE_BRANCH_OR_TAG=release/v4.1  # Change this to the desired version tag
+    ```
+
 
 ## Troubleshooting
+- **Device Connection Issues**: having `"--privileged"` allows the user to access the USB ports where the ESP32 is connected to directly flash the device.
+![alt text](docs/image.png)
 
-* Program upload failure
 
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
+## Setting Up a New Project Using ESP-IDF Examples
 
-## Technical support and feedback
+When starting a new project with the ESP32, you can leverage the rich set of examples provided by the ESP-IDF framework. These examples are designed to illustrate various features and capabilities of the ESP32 and can serve as an excellent starting point for your own projects.
 
-Please use the following feedback channels:
+### Steps to Initialize a New Project:
 
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
+1. **Select an Example**:
+   - Browse the ESP-IDF examples located at `/opt/esp/idf/examples` within the Docker environment. These examples cover a wide range of applications, from simple tasks like blinking an LED to more complex operations like network communication and sensor integration.
 
-We will get back to you as soon as possible.
+2. **Copy an Example to Your Workspace**:
+   - To create a new project, you can copy any of these examples directly into your workspace. This approach ensures that all necessary configurations and boilerplate code are set up correctly. Use the following command in the VSCode terminal to copy an example:
+
+     ```bash
+     cp -r /opt/esp/idf/examples/get-started/hello_world/* /workspace/
+     ```
+
+   - Replace `get-started/hello_world` with the path to the example you wish to use. This command clones the `hello_world` example into your workspace.
+
+3. **Configure the New Project**:
+   - Navigate to the new project directory in your workspace:
+   
+     ```bash
+     cd /workspace
+     ```
+
+   - You may need to adjust configuration files such as `sdkconfig` or `CMakeLists.txt` depending on your specific hardware or software requirements.
+
+4. **Build and Run Your Project**:
+   - Compile and flash your project to an ESP32 device using the following commands:
+
+     ```bash
+     idf.py build
+     idf.py -p /dev/ttyUSB0 flash
+     ```
+   - You Can also perform these steps using the ESP-IDF Extension 
+   - Ensure to replace `/dev/ttyUSB0` with the appropriate serial port connected to your ESP32 device.
